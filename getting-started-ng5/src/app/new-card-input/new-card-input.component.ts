@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   host:{'class':'col-4'}
 })
 export class NewCardInputComponent implements OnInit {
-
+  public newCard: any = {text: ''};
   constructor() { }
 
   ngOnInit() {
