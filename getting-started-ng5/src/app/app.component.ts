@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 
 @Component({
@@ -18,4 +19,6 @@ export class AppComponent {
   {text: 'Card 9'},
   {text: 'Card 10'}]; 
   public title='debster';
+  addCard(cardText: string) {
+    this.cards.push({text: cardText});}
 };
