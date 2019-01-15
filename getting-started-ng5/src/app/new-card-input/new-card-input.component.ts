@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit,Output,HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-new-card-input',
@@ -8,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewCardInputComponent implements OnInit {
   public newCard: any = {text: ''};
+  
   constructor() { }
-
+  @Output() onCardAdd = new EventEmitter<string>();
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.code === "Enter" && this.newCard.text.length > 0) {
+      this.addCard(this.newCard.text);
+    }
+  }
+  addCard(text) {
+    this.onCardAdd.emit(text);
+    this.newCard.text = '';
+  }
   ngOnInit() {
   }
 
