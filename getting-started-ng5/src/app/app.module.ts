@@ -7,6 +7,7 @@ import { CardComponent } from './card/card.component';
 import { CardListComponent } from './card-list/card-list.component';
 import { NewCardInputComponent } from './new-card-input/new-card-input.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CardService } from './services/card.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
