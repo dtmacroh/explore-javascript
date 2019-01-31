@@ -1,6 +1,8 @@
 
 import { Component } from '@angular/core';
 import { CardService } from './services/card.service';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Card } from './models/card';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,21 +10,12 @@ import { CardService } from './services/card.service';
 })
 
 export class AppComponent {
-  constructor(private cardService: CardService) {
-    cardService.get().subscribe((cards: any) => this.cards = cards);
-  }
-  public cards: Array<any> = [
-  {text: 'Card 1'},
-  {text: 'Card 2'},
-  {text: 'Card 3'},
-  {text: 'Card 4'},
-  {text: 'Card 5'},
-  {text: 'Card 6'},
-  {text: 'Card 7'},
-  {text: 'Card 8'},
-  {text: 'Card 9'},
-  {text: 'Card 10'}]; 
-  public title='debster';
-  addCard(cardText: string) {
-    this.cards.push({text: cardText});}
+  public cards$: Observable<Card[]>;
+
+addCard(cardText: string) {
+  this.cardService.createCard(new Card(cardText));
+}
+
+constructor(private cardService: CardService) {
+  this.cards$ = this.cardService.getCardsList();
 };

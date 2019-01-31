@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  firebase: {
+    apiKey: "AIzaSyCdVVlCStt416sy4Y1oAiUG13VZUQ7WdtI",
+    authDomain: "carbide-sensor-194523.firebaseapp.com",
+    databaseURL: "https://carbide-sensor-194523.firebaseio.com",
+    projectId: "carbide-sensor-194523",
+    storageBucket: "carbide-sensor-194523.appspot.com",
+    messagingSenderId: "778503529267"
+  }
+  
+
 };
 
 /*
