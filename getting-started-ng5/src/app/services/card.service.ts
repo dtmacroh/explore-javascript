@@ -1,24 +1,51 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
+
+import { Card } from '../models/card';
 
 @Injectable()
 export class CardService {
 
-  constructor(private http: HttpClient) { }
- 
-  get() {
-    return this.http.get(`/notes.json`);
+  private basePath = '/items';
+
+  cardsRef: AngularFireList<Card>;
+  cardRef:  AngularFireObject<Card>;
+
+  constructor(private db: AngularFireDatabase) {
+    this.cardsRef = db.list('/cards');
   }
 
-  add(payload) {
-    return this.http.post(`/notes.json`, {text: trim(payload)});
+  getCardsList(): Observable<Card[]> {
+    return this.cardsRef.snapshotChanges().map((arr) => {
+      return arr.map((snap) => Object.assign(snap.payload.val(), { $key: snap.key }) );
+    });
   }
 
-  remove(payload) {
-    return this.http.delete(`/notes/${payload.id}.json`);
+  getCard(key: string): Observable<Card | null> {
+    const cardPath = `${this.basePath}/${key}`;
+    const card = this.db.object(cardPath).valueChanges() as Observable<Card | null>;
+    return card;
   }
 
-  update(payload) {
-    return this.http.patch(`/notes/${payload.id}.json`, payload);
+  createCard(card: Card): void {
+    this.cardsRef.push(card);
+  }
+
+  updateCard(key: string, value: any): void {
+    this.cardsRef.update(key, value);
+  }
+
+  deleteCard(key: string): void {
+    this.cardsRef.remove(key);
+  }
+
+  deleteAll(): void {
+    this.cardsRef.remove();
+  }
+
+  // Default error handling for all actions
+  private handleError(error: Error) {
+    console.error(error);
   }
 }

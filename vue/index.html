@@ -40,8 +40,21 @@
 
 <div id="app">
   {{message}}
+  <blog-post title="hi"></blog-post>
 </div>
 
+<div id="app-4">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}, {{todo.id}} 
+      </li>
+    </ol>
+   
+  </div>
+  <div id="directiveArg">
+      <a v-bind:href="url" target="_blank">Click to visit - {{ url }}</a>
+      <project pageref="url">dude</project>
+    </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
@@ -64,14 +77,37 @@
 <script src="js/treeskills.js" charset="utf-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-
+Vue.component('blog-post', {
+  props: ['title'],
+  template: '<h3>{{ title }}</h3>'
+})
+Vue.component('project', {
+  props:['pageref'],
+  template: '<a v-bind:href="pageref" ></a>'
+        
+})
 var app = new Vue({
   el: '#app',
   data: {
     message: 'Hello Vue!'
   }
 })
-
+var app4 = new Vue({
+  el:'#app-4',
+  data:{
+    todos: [
+      {text: 'Learn Javascript', id:1},
+      {text: 'Learn Vue', id:2},
+      {text: 'Build something awesome', id:3}
+    ]
+  }
+})
+var directiveArg = new Vue({
+  el: '#directiveArg',
+  data: {
+    url: "http://www.demos.codedodle.com"
+  }
+});
 </script>
 </body>
 </html>
